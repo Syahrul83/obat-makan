@@ -1,0 +1,128 @@
+.kasir-wrapper {
+	margin:0;
+	position: relative;
+	width:100%;
+	min-height:1px;
+	display:flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+
+.content-padding {
+	width: 100%;
+	padding:10px 15px 0px 15px!important;
+}
+
+.main-footer {
+	margin:0;
+}
+
+.flex {
+	display: flex;
+}
+
+.flex-center {
+	justify-content: center;
+	align-items: center;
+}
+
+.padding {
+	padding-top:7%;
+	padding-bottom:0px;
+}
+
+.force-to-bottom {
+	width:100%;
+	position:relative;
+	bottom:0;	
+}
+
+.escape {
+	width:100%;
+	display:block;
+}
+
+.total {
+	margin:0;
+}
+
+.form-hide {
+	display:none;
+}
+
+.btn-hide {
+	display: none;
+}
+
+.form-tabel {
+	background:transparent;
+	border:0;
+}
+
+.select2-container {
+	width:100% !important;
+}
+
+.select2-container *:focus {
+    outline: 1px solid #719ECE; 
+}
+
+.btn-helper {
+	margin-bottom:10px;
+}
+
+.transaksi-obat tbody {
+	display:block;
+	min-height:196.923px;
+	/*overflow:auto;*/
+}
+
+.transaksi-obat thead, .transaksi-obat tbody tr {
+	display:table;
+	width:100%;
+	table-layout: fixed;
+}
+
+.transaksi-racik-obat tbody {
+	display:block;
+	min-height:150px;
+	/*overflow:auto;*/
+}
+
+.transaksi-racik-obat thead, .transaksi-racik-obat tbody tr {
+	display:table;
+	width:100%;
+	table-layout: fixed;
+}
+
+.transaksi-tanpa-racik thead {
+	width:100%;
+}
+
+.transaksi-tanpa-racik tbody {
+	display:block;
+	min-height:150px;
+	/*overflow:auto;*/
+}
+
+.transaksi-tanpa-racik thead, .transaksi-tanpa-racik tbody tr {
+	display:table;
+	width:100%;
+	table-layout: fixed;
+}
+
+.transaksi-tanpa-racik thead {
+	width:100%;
+}
+
+.force-fullwidth {
+	width:100%!important;
+}
+
+.modal-width {
+	width:100%!important;
+}
+
+.mb-10 {
+	margin-bottom:10px;
+}
