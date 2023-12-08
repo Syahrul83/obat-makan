@@ -632,7 +632,7 @@ class LaporanController extends Controller
                             ->join('golongan_obat', 'obat.id_golongan_obat', '=', 'golongan_obat.id_golongan_obat')
                             ->whereBetween('tanggal_pemakaian', [$from,$to])
                             // ->distinct()
-                            ->orderBy('tanggal_pemakaian', 'DESC')
+                            // ->orderBy('tanggal_pemakaian', 'DESC')
                             ->get();
 
 
@@ -650,10 +650,155 @@ class LaporanController extends Controller
         $cell = 8;
         $sum  = 0;
 
+
+
+        // $get1 = ReturBarangDetail::join('retur_barang', 'retur_barang_detail.id_retur_barang', '=', 'retur_barang.id_retur_barang')
+        // ->join('pemakaian_obat', 'retur_barang.nomor_transaksi', '=', 'pemakaian_obat.nomor_transaksi')
+        // ->distinct('pemakaian_obat.id_pemakaian')
+        // ->whereBetween('pemakaian_obat.tanggal_pemakaian', [$from, $to])
+        // ->whereBetween('retur_barang.tanggal_retur', [$from, $to])
+        // ->where('pemakaian_obat.id_obat', '=', 3368)
+        // ->get();
+
+        //  dd($get1->pluck('id_obat'));
+
+
+
+        // $stok[] = [
+        //       'id_pemakaian' => $val['id_pemakaian'],
+        //       'id_obat' => $val['id_obat'],
+        //       'stok_retur' => $value1['stok_retur'],
+        //   ];
+
+
+        // if ($val->id_obat === $stok[$index2]['id_obat']) {
+
+        //     $stok_retur4[$val->id_pemakaian][$val->id_obat] = $stok[$index2]['stok_retur'];
+
+        // }
+
+        $get1   = ReturBarangDetail::join('retur_barang', 'retur_barang_detail.id_retur_barang', '=', 'retur_barang.id_retur_barang')
+        ->join('obat', 'retur_barang_detail.id_obat', '=', 'obat.id_obat')
+        ->whereBetween('tanggal_retur', [$from,$to])
+           ->orderBy('retur_barang.tanggal_retur', 'DESC')
+          ->orderBy('retur_barang_detail.id_obat', 'DESC')
+        ->get([ 'retur_barang_detail.id_obat','retur_barang.nomor_transaksi','retur_barang_detail.stok_retur']);
+
+
+        $pem =  Pemakaian::whereIn('nomor_transaksi', $get1->pluck('nomor_transaksi'))
+        ->whereIn('id_obat', $get1->pluck('id_obat'))
+        ->whereBetween('tanggal_pemakaian', [$from,$to])
+        ->orderBy('tanggal_pemakaian', 'DESC')
+          ->orderBy('id_obat', 'DESC')
+
+        ->get(['pemakaian_obat.id_pemakaian', 'pemakaian_obat.id_obat']);
+
+
+        $stok = [];
+        $stok_retur4 = [];
+        foreach ($pem as $index2 => $val) {
+            foreach ($get1 as $key => $value1) {
+                $stok[] = [
+                    'id_obat' => $value1->id_obat,
+                     'nomor_transaksi' => $value1->nomor_transaksi,
+                    'stok_retur' => $value1->stok_retur,
+                ];
+
+                if ($val->id_obat ===  $stok[$index2]['id_obat']) {
+
+                    $stok_retur4[$val->id_pemakaian][$val->id_obat] = $stok[$index2]['stok_retur'];
+
+                }
+
+            }
+
+        }
+
+
+
+
+
+        // dd($stok_retur4);
+
+
+        // $pem =  Pemakaian::rightJoin('retur_barang_detail', 'pemakaian_obat.id_obat', '=', 'retur_barang_detail.id_obat')
+        // ->whereIn('pemakaian_obat.nomor_transaksi', $get1->pluck('nomor_transaksi'))
+        // ->whereIn('retur_barang_detail.id_retur_barang_detail', $get1->pluck('id_retur_barang_detail'))
+        // ->whereIn('pemakaian_obat.id_obat', $get1->pluck('id_obat'))
+        // ->whereBetween('tanggal_pemakaian', [$from,$to])
+        // ->orderBy('pemakaian_obat.id_obat', 'ASC')
+        // ->get();
+
+
+
+
+        // $pem =  Pemakaian::join('retur_barang', 'retur_barang.nomor_transaksi', '=', 'pemakaian_obat.nomor_transaksi')
+        // ->join('retur_barang_detail', 'retur_barang.id_retur_barang', '=', 'retur_barang_detail.id_retur_barang')
+        // ->whereIn('pemakaian_obat.nomor_transaksi', $get1->pluck('nomor_transaksi'))
+        // ->whereIn('retur_barang_detail.id_retur_barang_detail', $get1->pluck('id_retur_barang_detail'))
+        // ->whereIn('pemakaian_obat.id_obat', $get1->pluck('id_obat'))
+        // ->whereBetween('retur_barang.tanggal_retur', [$from, $to])
+        // ->whereBetween('tanggal_pemakaian', [$from,$to])
+        // ->orderBy('pemakaian_obat.id_obat', 'ASC')
+        // ->get();
+
+        // dd($pem);
+        // $stok_retur4 = [];
+        // // foreach ($obat as $index => $value) {
+        // foreach ($get1   as $key => $value1) {
+
+        //     // $stok_retur1[$index][$value->id_obat] = $value1->stok_retur;
+        //     // $stok_retur2[$value1->id_retur_barang_detail] = $value1->stok_retur;
+        //     // $stok_retur3[$key]['id_retur_barang_detail'] = $value1->id_retur_barang_detail;
+        //     // $stok_retur3[$key]['id_obat'] = $value1->id_obat;
+
+
+
+        //     $stok_retur4[][$value1->id_obat] = $value1->stok_retur;
+
+
+        // }
+        // }
+
+        // foreach ($obat as $index2 => $val) {
+        //     foreach ($get1 as $key => $value1) {
+        //         if ($val->id_obat == $value1->id_obat && $val->nomor_transaksi == $value1->nomor_transaksi) {
+        //             if (!isset($stok_retur4[$index2][$val->id_obat])) {
+        //                 $stok_retur4[$index2][$val->id_obat] = array();
+        //             }
+        //             $stok_retur4[$index2][$val->id_obat][] = $value1->stok_retur;
+        //         }
+        //     }
+        // }
+        // dd($stok_retur4);
+
         foreach ($obat as $index => $value) {
             // dd($value);
             $sum_pakai = Pemakaian::getSumExportObat($from, $to, $value->id_obat);
             $count     = $index + 1;
+
+            $tes[] = $index;
+
+            //     $retur_barang_id = DB::table('retur_barang')
+            //     ->whereBetween('retur_barang.tanggal_transaksi', [$from,$to])
+            //     ->where('nomor_transaksi', $value->nomor_transaksi)
+            //     ->value('id_retur_barang');
+
+            // $stok_retur = DB::table('retur_barang_detail')
+            // ->whereIn('id_retur_barang', $stok_retur3)
+            // ->where('id_obat', $value->id_obat)
+            // ->value('stok_retur');
+
+
+
+
+            // $stok_retur1 = 0;
+            // foreach ($stok_retur as $key => $value1) {
+
+            //     $stok_retur1 = $value1->stok_retur;
+            // }
+
+            // dd($stok_retur1 ?? 0);
 
             // $get_obat  = Obat::join('jenis_obat','obat.id_jenis_obat','=','jenis_obat.id_jenis_obat')
             //         ->join('golongan_obat','obat.id_golongan_obat','=','golongan_obat.id_golongan_obat')
@@ -680,15 +825,39 @@ class LaporanController extends Controller
             $spreadsheet->getActiveSheet()->setCellValue('D' . $cell, $value->nama_obat);
             $spreadsheet->getActiveSheet()->setCellValue('E' . $cell, $value->nama_jenis_obat);
             $spreadsheet->getActiveSheet()->setCellValue('F' . $cell, $value->nama_golongan);
-            $stok_pakai = retur($value->nomor_transaksi, $value->id_obat);
+            $stok_pakai =  $stok_retur4[$value->id_pemakaian][$value->id_obat] ?? 0;
             $hasil = $value->stok_pakai - $stok_pakai;
+
             $spreadsheet->getActiveSheet()->setCellValue('G' . $cell, $value->stok_pakai);
-            $spreadsheet->getActiveSheet()->setCellValue('H' . $cell, -$stok_pakai  ?? '0');
+
+
+
+
+            $spreadsheet->getActiveSheet()->setCellValue('H' . $cell, -$stok_pakai);
+
+
+
+            // $spreadsheet->getActiveSheet()->setCellValue('H' . $cell, $stok_pakai);
+
+
+
+
+
+
+
+
+            // $spreadsheet->getActiveSheet()->setCellValue('H' . $cell, -$stok_retur1  ?? '0');
             $spreadsheet->getActiveSheet()->setCellValue('I' . $cell, $value->harga_modal *  $hasil);
 
 
             $cell = $cell + 1;
+
         }
+        // dd($stok_retur4);
+        // dd($tes);
+        // dd($stok_retur4[0][3368]);
+
+        // dd(array_sum($stok_retur2));
 
         $spreadsheet->getActiveSheet()->setCellValue('A' . $cell, 'Total Pakai Stok');
         $spreadsheet->getActiveSheet()->setCellValue('G' . $cell, "=SUM(G8:G$cell)");

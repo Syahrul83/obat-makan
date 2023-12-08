@@ -381,37 +381,37 @@ function retur($trx, $obat_id)
     ->where('nomor_transaksi', $trx)
     ->value('id_retur_barang');
 
-    $count = DB::table('retur_barang_detail')
+    // $count = DB::table('retur_barang_detail')
 
-     ->where('id_retur_barang', $retur_barang_id)
-     ->where('id_obat', $obat_id)
-     ->count();
-
-
-    if($count < 1 or $count == null) {
-        return  $stok_retur = DB::table('retur_barang_detail')
-          ->where('id_retur_barang', $retur_barang_id)
-          ->where('id_obat', $obat_id)
-          ->value('stok_retur');
+    //  ->where('id_retur_barang', $retur_barang_id)
+    //  ->where('id_obat', $obat_id)
+    //  ->count();
 
 
-    } elseif($count > 1) {
+    // if($count < 1 or $count == null) {
+    return  $stok_retur = DB::table('retur_barang_detail')
+      ->where('id_retur_barang', $retur_barang_id)
+      ->where('id_obat', $obat_id)
+      ->value('stok_retur');
 
-        $stok = DB::table('retur_barang_detail')
-        ->where('id_retur_barang', $retur_barang_id)
-        ->where('id_obat', $obat_id)
-        ->get();
-        // dd($hit = $count - 1);
-        // // dd($stok[2]->stok_retur);
-        // if (empty($stok)) {
-        //     $hit = $count - 1;
-        //     $range = range(0, $hit);
-        //     $stok_retur = $stok[$range]->stok_retur;
 
-        // } else {
-        return    $stok_retur = 3; // Set a default value if $stok is empty
-        // }
-    }
+    // } elseif($count > 1) {
+
+    //     $stok = DB::table('retur_barang_detail')
+    //     ->where('id_retur_barang', $retur_barang_id)
+    //     ->where('id_obat', $obat_id)
+    //     ->get();
+    //     // dd($hit = $count - 1);
+    //     // // dd($stok[2]->stok_retur);
+    //     // if (empty($stok)) {
+    //     //     $hit = $count - 1;
+    //     //     $range = range(0, $hit);
+    //     //     $stok_retur = $stok[$range]->stok_retur;
+
+    //     // } else {
+    //     return    $stok_retur = 3; // Set a default value if $stok is empty
+    //     // }
+    // }
 
 }
 
