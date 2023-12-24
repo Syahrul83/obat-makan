@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,38 +26,43 @@
   <![endif]-->
 
   <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
+
 <body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a href="#">Aplikasi Penjualan <br>Apotek <b>Bunda Farma</b></a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="login-box-body">
-    <p class="login-box-msg">Silahkan masuk menggunakan akun anda.</p>
-    @if(session()->has('log'))
-    <div class="alert alert-danger alert-dismissible">
-      {{ session('log') }} <button class="close" data-dismiss="alert">X</button>
+  <div class="login-box">
+    <div class="login-logo">
+      <a href="#">Aplikasi Penjualan <br>Apotek <b></b></a>
     </div>
-    @endif
-    <form action="{{url('/login/auth')}}" method="POST">
-      {{csrf_field()}}
-      <div class="form-group has-feedback">
-        <input type="text" name="username" class="form-control" placeholder="Username" required="required" autofocus="autofocus">
-        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+      <p class="login-box-msg">Silahkan masuk menggunakan akun anda.</p>
+      @if(session()->has('log'))
+      <div class="alert alert-danger alert-dismissible">
+        {{ session('log') }} <button class="close" data-dismiss="alert">X</button>
       </div>
-      <div class="form-group has-feedback">
-        <input type="password" name="password" class="form-control" placeholder="Password" required="required">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-      </div>
-      <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-    </form>
+      @endif
+      <form action="{{url('/login/auth')}}" method="POST">
+        {{csrf_field()}}
+        <div class="form-group has-feedback">
+          <input type="text" name="username" class="form-control" placeholder="Username" required="required"
+            autofocus="autofocus">
+          <span class="glyphicon glyphicon-user form-control-feedback"></span>
+        </div>
+        <div class="form-group has-feedback">
+          <input type="password" name="password" class="form-control" placeholder="Password" required="required">
+          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+      </form>
+    </div>
   </div>
-</div>
 </body>
+
 </html>
 
 <script src="{{asset('assets/bower_components/jquery/dist/jquery.min.js')}}"></script>
 <script src="{{asset('assets/bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
-{{-- <script src="{{asset('assets/dist/js/custom.js')}}"></script> --}}
+{{--
+<script src="{{asset('assets/dist/js/custom.js')}}"></script> --}}

@@ -1,9 +1,9 @@
-	
-		<footer class="main-footer">
-	    	<strong>Copyright &copy; {{date('Y')}}</strong> Jupiter
-		</footer>
-	</div>
+<footer class="main-footer">
+	<strong>Copyright &copy; {{date('Y')}}</strong> Apotik
+</footer>
+</div>
 </body>
+
 </html>
 
 <script src="{{asset('assets/bower_components/jquery/dist/jquery.min.js')}}"></script>
